@@ -14,6 +14,14 @@ import { environment } from '../../../environments/environment.development';
   template: `
 
   <h1>Tell Us About Your Claim</h1>
+  <section class="claim-form-container">
+  <h3>Tell us what happened — just like you would for a car insurance claim.</h3>
+
+  <p>Describe your incident in your own words, like you're explaining it to an agent or writing on a claim form. You can include what happened, when it happened, what was damaged, 
+  and whether anyone was hurt. FormSense will read your story and help fill out the form for you — making the process faster, easier, and more accurate.</p>
+
+  </section>
+
   <img [src]="heroImageUrl" alt="" srcset="">
   <div class="claim-form-container">
   <mat-form-field appearance="fill" class="full-width">
@@ -26,13 +34,16 @@ import { environment } from '../../../environments/environment.development';
     ></textarea>
   </mat-form-field>
 
-  <button 
-    mat-raised-button 
+  <button
+     mat-raised-button 
     color="primary" 
     (click)="analyze()" 
     [disabled]="loading || !narrative.trim()"
     class="submit-button full-width">
+    <mat-icon aria-hidden="false" aria-label="material list alt icon" fontIcon="sparkles"></mat-icon>
+
     {{ loading ? 'Analyzing...' : 'Analyze' }}
+    
   </button>
   
   <mat-error *ngIf="error" class="error-message">{{ error }}</mat-error>
@@ -67,6 +78,8 @@ textarea {
   min-height: 120px;
   font-family: inherit;
 }
+
+
 
 .submit-button {
   margin-top: 16px;
@@ -111,11 +124,11 @@ export class NarrativeInputComponent {
   narrative = '';
   loading = false;
   error = '';
-  heroImageUrl = environment.image;
+  heroImageUrl = environment.images.homePage
 
   private formDataService = inject(FormsenseService);
-    private gemini= inject(GeminiService);
-    private router = inject(Router);
+  private gemini = inject(GeminiService);
+  private router = inject(Router);
 
   analyze() {
     if (!this.narrative.trim()) return;
